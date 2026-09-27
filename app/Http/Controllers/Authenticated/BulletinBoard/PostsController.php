@@ -57,7 +57,7 @@ class PostsController extends Controller
         return redirect()->route('post.show');
     }
 
-    public function postEdit(Request $request){
+    public function postEdit(PostFormRequest $request){
         Post::where('id', $request->post_id)->update([
             'post_title' => $request->post_title,
             'post' => $request->post_body,
@@ -75,6 +75,12 @@ class PostsController extends Controller
     }
 
     public function commentCreate(Request $request){
+	    $request->validate([
+    'comment' => 'required|string',
+], [
+    'comment.required' => 'コメントを入力してください。',
+    'comment.string' => 'コメントは文字列で入力してください。',
+]);
         PostComment::create([
             'post_id' => $request->post_id,
             'user_id' => Auth::id(),
