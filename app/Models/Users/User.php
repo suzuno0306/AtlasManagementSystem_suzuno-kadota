@@ -58,9 +58,6 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Posts\Post');
     }
 
-    public function calendars(){
-        return $this->belongsToMany('App\Models\Calendars\Calendar', 'calendar_users', 'user_id', 'calendar_id')->withPivot('user_id', 'id');
-    }
 
     public function reserveSettings(){
         return $this->belongsToMany('App\Models\Calendars\ReserveSetting', 'reserve_setting_users', 'user_id', 'reserve_setting_id')->withPivot('id');
