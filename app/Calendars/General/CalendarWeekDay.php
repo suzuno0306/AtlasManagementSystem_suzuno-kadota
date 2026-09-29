@@ -1,7 +1,7 @@
 <?php
 namespace App\Calendars\General;
 
-use App\Models\Calendars\ReserveSettings;
+use App\Models\Calendars\ReserveSetting;
 use Carbon\Carbon;
 use Auth;
 
@@ -29,21 +29,21 @@ class CalendarWeekDay{
    }
 
    function selectPart($ymd){
-     $one_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first();
-     $two_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first();
-     $three_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first();
+     $one_part_frame = ReserveSetting::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first();
+     $two_part_frame = ReserveSetting::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first();
+     $three_part_frame = ReserveSetting::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first();
      if($one_part_frame){
-       $one_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first()->limit_users;
+       $one_part_frame = ReserveSetting::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first()->limit_users;
      }else{
        $one_part_frame = '0';
      }
      if($two_part_frame){
-       $two_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first()->limit_users;
+       $two_part_frame = ReserveSetting::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first()->limit_users;
      }else{
        $two_part_frame = '0';
      }
      if($three_part_frame){
-       $three_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first()->limit_users;
+       $three_part_frame = ReserveSetting::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first()->limit_users;
      }else{
        $three_part_frame = '0';
      }

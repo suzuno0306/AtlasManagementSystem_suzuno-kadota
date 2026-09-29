@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Calendars\Admin\CalendarView;
 use App\Calendars\Admin\CalendarSettingView;
-use App\Models\Calendars\ReserveSettings;
+use App\Models\Calendars\ReserveSetting;
 use App\Models\Calendars\Calendar;
 use App\Models\USers\User;
 use Auth;
@@ -20,7 +20,7 @@ class CalendarsController extends Controller
     }
 
     public function reserveDetail($date, $part){
-        $reservePersons = ReserveSettings::with('users')->where('setting_reserve', $date)->where('setting_part', $part)->get();
+        $reservePersons = ReserveSetting::with('users')->where('setting_reserve', $date)->where('setting_part', $part)->get();
         return view('authenticated.calendar.admin.reserve_detail', compact('reservePersons', 'date', 'part'));
     }
 
@@ -33,7 +33,7 @@ class CalendarsController extends Controller
         $reserveDays = $request->input('reserve_day');
         foreach($reserveDays as $day => $parts){
             foreach($parts as $part => $frame){
-                ReserveSettings::updateOrCreate([
+                ReserveSetting::updateOrCreate([
                     'setting_reserve' => $day,
                     'setting_part' => $part,
                 ],[

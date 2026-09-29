@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Authenticated\Calendar\General;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Calendars\General\CalendarView;
-use App\Models\Calendars\ReserveSettings;
+use App\Models\Calendars\ReserveSetting;
 use App\Models\Calendars\Calendar;
 use App\Models\USers\User;
 use Auth;
@@ -25,7 +25,7 @@ class CalendarController extends Controller
             $getDate = $request->getData;
             $reserveDays = array_filter(array_combine($getDate, $getPart));
             foreach($reserveDays as $key => $value){
-                $reserve_settings = ReserveSettings::where('setting_reserve', $key)->where('setting_part', $value)->first();
+                $reserve_settings = ReserveSetting::where('setting_reserve', $key)->where('setting_part', $value)->first();
                 $reserve_settings->decrement('limit_users');
                 $reserve_settings->users()->attach(Auth::id());
             }

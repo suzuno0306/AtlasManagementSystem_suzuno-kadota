@@ -1,7 +1,7 @@
 <?php
 namespace App\Calendars\Admin;
 use Carbon\Carbon;
-use App\Models\Calendars\ReserveSettings;
+use App\Models\Calendars\ReserveSetting;
 
 class CalendarSettingView{
   private $carbon;

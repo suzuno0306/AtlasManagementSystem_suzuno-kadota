@@ -63,7 +63,7 @@ class User extends Authenticatable
     }
 
     public function reserveSettings(){
-        return $this->belongsToMany('App\Models\Calendars\ReserveSettings', 'reserve_setting_users', 'user_id', 'reserve_setting_id')->withPivot('id');
+        return $this->belongsToMany('App\Models\Calendars\ReserveSetting', 'reserve_setting_users', 'user_id', 'reserve_setting_id')->withPivot('id');
     }
 
     public function subjects(){

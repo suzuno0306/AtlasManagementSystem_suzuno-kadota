@@ -4,7 +4,7 @@ namespace App\Models\Calendars;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ReserveSettings extends Model
+class ReserveSetting extends Model
 {
     const UPDATED_AT = null;
     public $timestamps = false;
