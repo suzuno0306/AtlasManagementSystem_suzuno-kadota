@@ -7,9 +7,16 @@
           <div>
           </div>
           <div>
-            <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
-            <a href="{{ route('post.delete', ['id' => $post->id]) }}" onclick="return confirm('この投稿を削除しますか？')">削除</a>
-          </div>
+    @if (Auth::id() === $post->user_id)
+        <span class="edit-modal-open"
+              post_title="{{ $post->post_title }}"
+              post_body="{{ $post->post }}"
+              post_id="{{ $post->id }}">編集</span>
+
+        <a href="{{ route('post.delete', ['id' => $post->id]) }}"
+           onclick="return confirm('この投稿を削除しますか？')">削除</a>
+    @endif
+</div>
         </div>
 
         <div class="contributor d-flex">
@@ -60,11 +67,19 @@
     <form action="{{ route('post.edit') }}" method="post">
       <div class="w-100">
         <div class="modal-inner-title w-50 m-auto">
-          <input type="text" name="post_title" placeholder="タイトル" class="w-100">
-        </div>
+    <input type="text" name="post_title" placeholder="タイトル" class="w-100">
+
+    @error('post_title')
+        <p class="text-danger">{{ $message }}</p>
+    @enderror
+</div>
         <div class="modal-inner-body w-50 m-auto pt-3 pb-3">
-          <textarea placeholder="投稿内容" name="post_body" class="w-100"></textarea>
-        </div>
+    <textarea placeholder="投稿内容" name="post_body" class="w-100"></textarea>
+
+    @error('post_body')
+        <p class="text-danger">{{ $message }}</p>
+    @enderror
+</div>
         <div class="w-50 m-auto edit-modal-btn d-flex">
           <a class="js-modal-close btn btn-danger d-inline-block" href="">閉じる</a>
           <input type="hidden" class="edit-modal-hidden" name="post_id" value="">
@@ -75,4 +90,15 @@
     </form>
   </div>
 </div>
+@if ($errors->has('post_title') || $errors->has('post_body'))
+<script>
+$(function () {
+    $('.js-modal').fadeIn();
+
+    $('.modal-inner-title input').val(@json(old('post_title')));
+    $('.modal-inner-body textarea').val(@json(old('post_body')));
+    $('.edit-modal-hidden').val(@json(old('post_id')));
+});
+</script>
+@endif
 </x-sidebar>

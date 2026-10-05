@@ -57,18 +57,34 @@ class PostsController extends Controller
         return redirect()->route('post.show');
     }
 
-    public function postEdit(PostFormRequest $request){
-        Post::where('id', $request->post_id)->update([
-            'post_title' => $request->post_title,
-            'post' => $request->post_body,
-        ]);
-        return redirect()->route('post.detail', ['id' => $request->post_id]);
+    public function postEdit(PostFormRequest $request)
+{
+    $post = Post::findOrFail($request->post_id);
+
+    if ($post->user_id !== Auth::id()) {
+        abort(403);
     }
 
-    public function postDelete($id){
-        Post::findOrFail($id)->delete();
-        return redirect()->route('post.show');
+    $post->update([
+        'post_title' => $request->post_title,
+        'post' => $request->post_body,
+    ]);
+
+    return redirect()->route('post.detail', ['id' => $post->id]);
+}
+
+public function postDelete($id)
+{
+    $post = Post::findOrFail($id);
+
+    if ($post->user_id !== Auth::id()) {
+        abort(403);
     }
+
+    $post->delete();
+
+    return redirect()->route('post.show');
+}
     public function mainCategoryCreate(Request $request){
         MainCategory::create(['main_category' => $request->main_category_name]);
         return redirect()->route('post.input');
