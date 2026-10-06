@@ -34,9 +34,37 @@ class RegisterRequest extends FormRequest
         'old_month' => 'required|numeric|between:1,12',
         'old_day' => 'required|integer|between:1,31',
         'role' => 'required|in:1,2,3,4',
-        'password' => 'required|min:8|max:30|confirmed',
+	'password' => 'required|min:8|max:30|confirmed',
+	'password_confirmation' => 'required',
         ];
     }
+    public function messages()
+{
+	return [
+		'over_name.required' => '姓は必須です。',
+		'over_name.max' => '姓は10文字以内で入力してください。',
+		'under_name.required' => '名は必須です。',
+		'under_name.max' => '名は10文字以内で入力してください。',
+		'over_name_kana.required' => 'セイは必須です。',
+		'over_name_kana.regex' => 'セイはカタカナで入力してください。',
+		'over_name_kana.max' => 'セイは10文字以内で入力してください。',
+		'under_name_kana.required' => 'メイは必須です。',
+		'under_name_kana.regex' => 'メイはカタカナで入力してください。',
+		'under_name_kana.max' => 'メイは10文字以内で入力してください。',
+		'mail_address.required' => 'メールアドレスは必須です。',
+		'mail_address.email' => 'メールアドレスの形式で入力してください。',
+		'mail_address.unique' => 'このメールアドレスはすでに登録されています。',
+		'sex.required' => '性別は必須です。',
+		'old_year.required' => '生年月日の年は必須です。',
+		'old_month.required' => '生年月日の月は必須です。',
+		'old_day.required' => '生年月日の日は必須です。',
+		'role.required' => '役職は必須です。',
+		'password.required' => 'パスワードは必須です。',
+		'password.min' => 'パスワードは8文字以上で入力してください。',
+		'password.confirmed' => '確認用パスワードと一致していません。',
+		'password_confirmation.required' => '確認用パスワードは必須です。',
+    ];
+}
 public function withValidator($validator)
 {
     $validator->after(function ($validator) {
