@@ -92,6 +92,14 @@ public function postDelete($id)
         return redirect()->route('post.input');
     }
 public function subCategoryCreate(Request $request){
+	$request->validate([
+        'main_category_id' => 'required|exists:main_categories,id',
+	'sub_category_name' => 'required|string|max:60',
+	], [
+	'main_category_id.required' => 'メインカテゴリーを選択してください。',
+	'sub_category_name.required' => 'サブカテゴリーを入力してください。',
+	'sub_category_name.max' => 'サブカテゴリーは60文字以内で入力してください。',
+	]);
     SubCategory::create([
         'main_category_id' => $request->main_category_id,
         'sub_category' => $request->sub_category_name,
