@@ -20,13 +20,19 @@ class PostsController extends Controller
         $categories = MainCategory::get();
         $like = new Like;
         $post_comment = new Post;
-        if(!empty($request->keyword)){
-            $posts = Post::with('user', 'postComments')
-            ->where('post_title', 'like', '%'.$request->keyword.'%')
-            ->orWhere('post', 'like', '%'.$request->keyword.'%')->get();
+	if(!empty($request->keyword)){
+	    $sub_category = SubCategory::where('sub_category', $request->keyword)->first();
+	    if($sub_category){
+            $posts = $sub_category->posts()->with('user', 'postComments')->get();
+	    }else{
+	    $posts = Post::with('user', 'postComments')
+            ->where('post_title', 'like', '%' . $request->keyword . '%')
+            ->orWhere('post', 'like', '%' . $request->keyword . '%')
+            ->get();
+            }
         }else if($request->category_word){
-            $sub_category = $request->category_word;
-            $posts = Post::with('user', 'postComments')->get();
+            $sub_category = SubCategory::findOrFail($request->category_word);
+            $posts = $sub_category->posts()->with('user', 'postComments')->get();
         }else if($request->like_posts){
             $likes = Auth::user()->likePostId()->get('like_post_id');
             $posts = Post::with('user', 'postComments')
