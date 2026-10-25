@@ -20,7 +20,7 @@ class UsersController extends Controller
         $updown = $request->updown;
         $gender = $request->sex;
         $role = $request->role;
-        $selectedSubject = $request->subject;// ここで検索時の科目を受け取る
+        $selectedSubject = $request->input('subjects', []);// ここで検索時の科目を受け取る
         $userFactory = new SearchResultFactories();
 	$users = $userFactory->initializeUsers($keyword, $category, $updown, $gender, $role, $selectedSubject);
 	$users->load('subjects');
