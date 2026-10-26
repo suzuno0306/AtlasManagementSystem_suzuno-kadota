@@ -38,10 +38,13 @@ class CalendarView{
       $days = $week->getDays();
       foreach($days as $day){
         $startDay = $this->carbon->copy()->format("Y-m-01");
-        $toDay = $this->carbon->copy()->format("Y-m-d");
+	$toDay = $this->carbon->copy()->format("Y-m-d");
+	$isPast = $day->everyDay() < date('Y-m-d');
 
-        if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-          $html[] = '<td class="calendar-td">';
+	
+	if($isPast && $startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
+		$bgColor = 'background-color: #e0e0e0;';
+		$html[] = '<td class="calendar-td" style="' . $bgColor . '">';
         }else{
           $html[] = '<td class="calendar-td '.$day->getClassName().'">';
         }
@@ -55,7 +58,7 @@ class CalendarView{
             $reservePart = "リモ2部";
           }else if($reservePart == 3){
             $reservePart = "リモ3部";
-          }
+	  }
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
             $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
@@ -63,10 +66,16 @@ class CalendarView{
             $html[] = '<button type="submit" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }
-        }else{
-          $html[] = $day->selectPart($day->everyDay());
-        }
-        $html[] = $day->getDate();
+	}else{
+		if($isPast && $startDay <= $day->everyDay() && $day->everyDay() <= $this->carbon->copy()->endOfMonth()->format('Y-m-d')){
+    $html[] = '<p class="text-center">受付終了</p>';
+}else{
+    $html[] = $day->selectPart($day->everyDay());
+}
+	}
+        if (!$isPast && $startDay <= $day->everyDay()) {
+    $html[] = $day->getDate();
+}
         $html[] = '</td>';
       }
       $html[] = '</tr>';

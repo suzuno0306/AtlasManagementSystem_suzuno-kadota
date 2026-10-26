@@ -17,8 +17,8 @@ class CalendarWeekDay{
   }
 
   function pastClassName(){
-    return;
-  }
+    return $this->carbon->isPast() ? 'past-day' : '';
+}
 
   /**
    * @return

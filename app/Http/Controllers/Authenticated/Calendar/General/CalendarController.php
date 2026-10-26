@@ -22,7 +22,7 @@ class CalendarController extends Controller
         DB::beginTransaction();
         try{
             $getPart = $request->getPart;
-            $getDate = $request->getData;
+	    $getDate = $request->getData;
             $reserveDays = array_filter(array_combine($getDate, $getPart));
             foreach($reserveDays as $key => $value){
                 $reserve_settings = ReserveSetting::where('setting_reserve', $key)->where('setting_part', $value)->first();
@@ -35,4 +35,38 @@ class CalendarController extends Controller
         }
         return redirect()->route('calendar.general.show', ['user_id' => Auth::id()]);
     }
+    public function delete(Request $request)
+{
+    $getDate = $request->getData;
+    $getPart = $request->getPart;
+    $deleteDays = array_filter(array_combine($getDate, $getPart));
+
+    DB::beginTransaction();
+
+    try {
+        foreach ($deleteDays as $key => $value) {
+            $reserve_settings = ReserveSetting::where('setting_reserve', $key)
+                ->where('setting_part', $value)
+                ->first();
+
+            if (!$reserve_settings) {
+                continue;
+            }
+
+            $deleted = $reserve_settings->users()->detach(Auth::id());
+
+            if ($deleted > 0) {
+                $reserve_settings->increment('limit_users');
+            }
+        }
+
+        DB::commit();
+    } catch (\Exception $e) {
+        DB::rollBack();
+        throw $e;
+    }
+
+    return redirect()->route('calendar.general.show', ['user_id' => Auth::id()]);
+}
+
 }
