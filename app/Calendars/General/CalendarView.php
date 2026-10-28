@@ -41,7 +41,7 @@ class CalendarView{
 	$toDay = $this->carbon->copy()->format("Y-m-d");
 	$isPast = $day->everyDay() < date('Y-m-d');
 
-	
+
 	if($isPast && $startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
 		$bgColor = 'background-color: #e0e0e0;';
 		$html[] = '<td class="calendar-td" style="' . $bgColor . '">';
@@ -51,7 +51,8 @@ class CalendarView{
         $html[] = $day->render();
 
         if(in_array($day->everyDay(), $day->authReserveDay())){
-          $reservePart = $day->authReserveDate($day->everyDay())->first()->setting_part;
+		$reservePart = $day->authReserveDate($day->everyDay())->first()->setting_part;
+		$reservePartId = $reservePart;
           if($reservePart == 1){
             $reservePart = "リモ1部";
           }else if($reservePart == 2){
@@ -63,7 +64,8 @@ class CalendarView{
             $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }else{
-            $html[] = '<button type="submit" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
+		  $html[] = '<button type="button" data-toggle="modal" data-target="#cancelModal" data-date="' . $day->everyDay() . '" data-part="' . $reservePartId . '" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'.
+			  $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }
 	}else{

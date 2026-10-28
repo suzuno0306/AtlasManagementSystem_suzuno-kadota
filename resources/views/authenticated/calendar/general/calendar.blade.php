@@ -13,4 +13,22 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">予約キャンセル確認</h5>
+    </div>
+    <div class="modal-body">
+    <input type="hidden" name="getData[]" id="deleteDate" form="deleteParts">
+    <input type="hidden" name="getPart[]" id="deletePart" form="deleteParts">
+        <p>予約日：<span id="cancelDate"></span></p>
+        <p>予約時間（場所・部数）：<span id="cancelPart"></span></p>
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">戻る</button>
+    <button type="submit" class="btn btn-danger" form="deleteParts">予約をキャンセルする</button>
+</div>
+</div>
+</div>
 </x-sidebar>
