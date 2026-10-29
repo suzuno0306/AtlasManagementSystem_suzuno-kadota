@@ -62,11 +62,9 @@ class CalendarView{
 	  }
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
             $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
-            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }else{
 		  $html[] = '<button type="button" data-toggle="modal" data-target="#cancelModal" data-date="' . $day->everyDay() . '" data-part="' . $reservePartId . '" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'.
 			  $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
-            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }
 	}else{
 		if($isPast && $startDay <= $day->everyDay() && $day->everyDay() <= $this->carbon->copy()->endOfMonth()->format('Y-m-d')){
