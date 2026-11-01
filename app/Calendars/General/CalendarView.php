@@ -39,7 +39,7 @@ class CalendarView{
       foreach($days as $day){
         $startDay = $this->carbon->copy()->format("Y-m-01");
 	$toDay = $this->carbon->copy()->format("Y-m-d");
-	$isPast = $day->everyDay() < date('Y-m-d');
+	$isPast = $day->everyDay() < Carbon::today('Asia/Tokyo')->format('Y-m-d');
 
 
 	if($isPast && $startDay <= $day->everyDay() && $toDay >= $day->everyDay()){

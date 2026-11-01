@@ -23,7 +23,12 @@ class CalendarController extends Controller
         try{
             $getPart = $request->getPart;
 	    $getDate = $request->getData;
-            $reserveDays = array_filter(array_combine($getDate, $getPart));
+            $reserveDays = [];
+foreach ($getDate as $index => $date) {
+    if (!empty($getPart[$index])) {
+        $reserveDays[$date] = $getPart[$index];
+    }
+}
             foreach($reserveDays as $key => $value){
                 $reserve_settings = ReserveSetting::where('setting_reserve', $key)->where('setting_part', $value)->first();
                 $reserve_settings->decrement('limit_users');
@@ -32,6 +37,7 @@ class CalendarController extends Controller
             DB::commit();
         }catch(\Exception $e){
             DB::rollback();
+	    throw $e;
         }
         return redirect()->route('calendar.general.show', ['user_id' => Auth::id()]);
     }
