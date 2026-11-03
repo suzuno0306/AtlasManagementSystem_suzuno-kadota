@@ -26,7 +26,7 @@
         <p>予約時間（場所・部数）：<span id="cancelPart"></span></p>
     </div>
     <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">戻る</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">戻る</button>
     <button type="submit" class="btn btn-danger" form="deleteParts">予約をキャンセルする</button>
 </div>
 </div>
