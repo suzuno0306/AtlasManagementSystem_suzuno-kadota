@@ -51,6 +51,7 @@ class CalendarView{
         $html[] = $day->render();
 
         if(in_array($day->everyDay(), $day->authReserveDay())){
+		$html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
 		$reservePart = $day->authReserveDate($day->everyDay())->first()->setting_part;
 		$reservePartId = $reservePart;
           if($reservePart == 1){
