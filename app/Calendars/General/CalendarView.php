@@ -61,14 +61,15 @@ class CalendarView{
           }else if($reservePart == 3){
             $reservePart = "リモ3部";
 	  }
-          if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
+            if($isPast){
+		  $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px">' . $reservePart . '</p>';
           }else{
 		  $html[] = '<button type="button" data-toggle="modal" data-target="#cancelModal" data-date="' . $day->everyDay() . '" data-part="' . $reservePartId . '" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'.
 			  $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
           }
 	}else{
-		if($isPast && $startDay <= $day->everyDay() && $day->everyDay() <= $this->carbon->copy()->endOfMonth()->format('Y-m-d')){
+        if($isPast && $startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
+
     $html[] = '<p class="text-center">受付終了</p>';
 }else{
     $html[] = $day->selectPart($day->everyDay());
