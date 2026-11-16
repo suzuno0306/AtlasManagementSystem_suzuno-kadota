@@ -20,15 +20,15 @@
     <body class="all_content">
         <div class="d-flex">
             <div class="sidebar">
-                <p><a href="{{ route('top.show') }}">トップ</a></p>
-                <p><a href="/logout">ログアウト</a></p>
-                <p><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">スクール予約</a></p>
+                <p><a href="{{ route('top.show') }}"><i class="fas fa-home"></i> マイページ</a></p>
+                <p><a href="/logout"><i class="fas fa-sign-out-alt"></i> ログアウト</a></p>
+                <p><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}"><i class="far fa-calendar-alt"></i> スクール予約</a></p>
 		@if (Auth::user()->role != 4)
-                <p><a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}">スクール予約確認</a></p>
-                <p><a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}">スクール枠登録</a></p>
+                <p><a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}"><i class="far fa-calendar-check"></i> スクール予約確認</a>
+                <p><a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}"<i class="fas fa-calendar-alt"></i><i class="fas fa-pen" style="font-size: 8px; margin-left: -5px;"></i> スクール枠登録
 		@endif
-                <p><a href="{{ route('post.show') }}">掲示板</a></p>
-                <p><a href="{{ route('user.show') }}">ユーザー検索</a></p>
+                <p><a href="{{ route('post.show') }}"><svg width="20" height="20" viewBox="0 0 24 24" style="vertical-align:middle"><path d="M3 3h18v15H7l-4 3V3z" fill="white"/><path d="M6 7h12M6 11h12M6 15h9" stroke="#03AAD2" stroke-width="1.5" fill="none"/></svg> 掲示板</a></p>
+                <p><a href="{{ route('user.show') }}"><i class="fas fa-user-friends"></i> ユーザー検索</a></p>
             </div>
             <div class="main-container">
                 {{ $slot }}
